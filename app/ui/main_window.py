@@ -744,8 +744,7 @@ class MainWindow(QMainWindow):
             "audio_format": chosen_fmt,
             "audio_quality": chosen_qual,
             "embed_thumbnail": config.get("embed_thumbnail", True),
-            "embed_metadata": config.get("embed_metadata", True),
-            "number_files": len(items_to_download) > 1
+            "embed_metadata": config.get("embed_metadata", True)
         }
 
         # UI state during download

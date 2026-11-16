@@ -348,7 +348,6 @@ class PlaylistDownloadWorker(QThread):
         audio_quality = self.opts.get("audio_quality", "320")
         embed_thumb = self.opts.get("embed_thumbnail", True)
         embed_meta = self.opts.get("embed_metadata", True)
-        numbering = self.opts.get("number_files", True)
 
         # Detect FFmpeg location
         ffmpeg_bin = find_binary("ffmpeg")
@@ -400,12 +399,8 @@ class PlaylistDownloadWorker(QThread):
 
             self.overall_progress.emit(idx + 1, total_items, overall_pct, batch_eta_str)
 
-            # Build filename template (avoid NA with single-item yt-dlp extractions)
-            item_num = item.get("index", idx + 1)
-            if numbering and total_items > 1:
-                filename_template = os.path.join(output_dir, f"{item_num:02d} - %(title)s.%(ext)s")
-            else:
-                filename_template = os.path.join(output_dir, "%(title)s.%(ext)s")
+            # Build filename template without numbering prefix
+            filename_template = os.path.join(output_dir, "%(title)s.%(ext)s")
 
             # Setup yt-dlp options
             ydl_opts = {
